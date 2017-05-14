@@ -1,0 +1,10 @@
+<ul>
+  <li class="text" *ngFor="let item of items | async">
+    {{item.$value}}
+  </li>
+</ul>
+
+<form class="form-signin" (submit)="sendMessageDOM($event, message.value)">
+<input #message type="textarea" id="message" class="form-control" placeholder="Message" required="">
+<button  class="btn btn-md btn-primary btn-block" type="submit">Send message</button>
+</form>
