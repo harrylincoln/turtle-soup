@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AF } from '../providers/af';
+import { HttpModule } from '@angular/http';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +12,20 @@ export class AppComponent {
   public items: FirebaseListObservable<any[]>;
   constructor(db: AngularFireDatabase, public afService: AF) {
     this.items = db.list('/');
+
   }
 
-  sendMessageDOM(message) {
+  authIT() {
     event.preventDefault();
-    this.afService.sendMessage(message);
+    this.afService.getCustomToken()
+      .then(() => {
+        this.afService.signInWithCustomToken();
+      })
+      .catch((err) => {
+        console.error('Error calling "getCustomToken": ', err);
+      });
+  }
+  logTheHellOut() {
+    this.afService.logout()
   }
 }

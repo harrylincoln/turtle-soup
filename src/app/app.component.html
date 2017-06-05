@@ -4,7 +4,11 @@
   </li>
 </ul>
 
-<form class="form-signin" (submit)="sendMessageDOM($event, message.value)">
+<!-- <form class="form-signin"">
 <input #message type="textarea" id="message" class="form-control" placeholder="Message" required="">
 <button  class="btn btn-md btn-primary btn-block" type="submit">Send message</button>
-</form>
+</form> -->
+
+<button (click)="authIT($event)">Start the magic</button>
+
+<button (click)="logTheHellOut($event)">Log the hell out</button>
