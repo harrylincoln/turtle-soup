@@ -15,7 +15,7 @@ export class AppComponent {
 
   }
 
-  authIT() {
+  authIT(event) {
     event.preventDefault();
     this.afService.getCustomToken()
       .then(() => {
@@ -25,7 +25,19 @@ export class AppComponent {
         console.error('Error calling "getCustomToken": ', err);
       });
   }
-  logTheHellOut() {
+
+  logTheHellOut(event) {
+    event.preventDefault();
     this.afService.logout()
+  }
+
+  authAPIHit(event) {
+    event.preventDefault();
+    this.afService.getTokenAndSendToAPI()
+  }
+
+  createNewUserHit(event) {
+    event.preventDefault();
+    this.afService.createNewUser('bazza@hotmail.com', 'someshitpassword')
   }
 }

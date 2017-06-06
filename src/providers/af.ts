@@ -16,7 +16,10 @@ export class AF {
   public user: Observable<any>;
   private beTokenUrl = 'http://localhost:8081/get-token';
   private verifyTokenUrl = 'http://localhost:8081/verifyIdToken';
+  private authApiUrl = 'http://localhost:8081/api/hello';
+  private createUserUrl = 'http://localhost:8081/create-user';
   public clientToken: string;
+  private tokenID: string;
 
   constructor(public afAuth: AngularFireAuth, public db: AngularFireDatabase, private http: Http) {
     this.afAuth.authState.subscribe(
@@ -62,28 +65,47 @@ export class AF {
 
   signInWithCustomToken() {
     this.afAuth.auth.signInWithCustomToken(this.clientToken).then(function(user) {
-    console.log('log out the user', user);
+    console.log('log in the user', user);
     }).catch(function(error) {
       console.log('signInWithCustomToken fail', error);
     });
   }
 
-  verifyToken(){
-    let headersObj = new Headers();
-    let clientToken = 'Bearer ' + this.clientToken;
-    headersObj.append('Authorization', 'Bearer ' + this.clientToken)
+  getTokenAndSendToAPI() {
+    this.afAuth.auth.currentUser.getToken().then(idToken => {
+      this.tokenID = idToken;
+      console.log('getTokenAndSendToAPI() idToken', this.tokenID);
+      let headersObj = new Headers();
+      headersObj.append('Authorization', 'Bearer ' + this.tokenID)
+      let options = new RequestOptions({ headers: headersObj });
 
-    let options = new RequestOptions({ headers: headersObj });
-
-    console.log('Token: ' + this.clientToken);
-
-    return this.http.get(this.verifyTokenUrl, options)
-      .toPromise()
-      .then(function (res) {
-        console.log('verifyToken', res.json());
-      })
-      .catch(this.handleError);
+      this.http.get(this.authApiUrl, options)
+        .toPromise()
+        .then(function (res) {
+          console.log('getTokenAndSendToAPI() signin success?', res.json());
+        })
+        .catch(function(error) {
+          console.log('getTokenAndSendToAPI() sigin error', error);
+        });
+    }).catch(function(error) {
+      console.log('currentUser getToken error', error)
+    });
   }
+
+  createNewUser(email, password) {
+    let headersObj = new Headers();
+    headersObj.append('Authorization', 'Bearer ' + this.tokenID)
+    let options = new RequestOptions({ headers: headersObj });
+    this.http.post(this.createUserUrl, {emailAddress: email, pass: password} , options)
+    .toPromise()
+    .then(function (res) {
+      console.log('createNewUser success', res.json());
+    })
+    .catch(function(error) {
+      console.log('createNewUser error', error);
+    });
+  }
+
   /**
    * Logs out the current user
    */
