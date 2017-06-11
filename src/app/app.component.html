@@ -1,6 +1,6 @@
 <ul>
   <li class="text" *ngFor="let item of items | async">
-    {{item.$value}}
+    {{item | json}}
   </li>
 </ul>
 
@@ -16,3 +16,5 @@
 <button (click)="authAPIHit($event)">Auth the API</button>
 
 <button (click)="createNewUserHit($event)">Create a user on the backend</button>
+
+<button (click)="signInEmailPassHit($event)">Sign in using email and pass</button>

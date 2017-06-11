@@ -37,6 +37,10 @@ export class AF {
     return Promise.reject(error.message || error);
   }
 
+  getCurrentUsers() {
+    return this.users;
+  }
+
   setClientToken(token) {
     this.clientToken = token;
   }
@@ -103,6 +107,27 @@ export class AF {
     })
     .catch(function(error) {
       console.log('createNewUser error', error);
+    });
+  }
+
+  signInEmailPass(email, password) {
+    this.afAuth.auth.signInWithEmailAndPassword(email, password).then((user) => {
+      console.log('Logged in as', user);
+      // let headersObj = new Headers();
+      // headersObj.append('Authorization', 'Bearer ' + user.uid)
+      // let options = new RequestOptions({ headers: headersObj });
+
+      // this.http.post('http://localhost:8081/add-data', {test: 'Yoooooooooo', uid: user.uid} , options)
+      // .toPromise()
+      // .then(function (res) {
+      //   console.log('add additional data', res.json());
+      // })
+      // .catch(function(error) {
+      //   console.error('', error);
+      // });
+
+    }).catch(function(error) {
+      console.error('signInEmailPass()', error);
     });
   }
 

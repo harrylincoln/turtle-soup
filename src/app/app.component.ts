@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AF } from '../providers/af';
 import { HttpModule } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +11,10 @@ import { HttpModule } from '@angular/http';
 })
 export class AppComponent {
   public items: FirebaseListObservable<any[]>;
+  public users: FirebaseListObservable<any>;
   constructor(db: AngularFireDatabase, public afService: AF) {
-    this.items = db.list('/');
-
+    this.items = db.list('/users');
+    this.users = afService.getCurrentUsers();
   }
 
   authIT(event) {
@@ -38,6 +40,11 @@ export class AppComponent {
 
   createNewUserHit(event) {
     event.preventDefault();
-    this.afService.createNewUser('bazza@hotmail.com', 'someshitpassword')
+    this.afService.createNewUser('alisonfoster@gmail.com', 'geneweeny')
+  }
+
+  signInEmailPassHit(event) {
+    event.preventDefault();
+    this.afService.signInEmailPass('alisonfoster@gmail.com', 'geneweeny')
   }
 }
