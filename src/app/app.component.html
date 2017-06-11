@@ -1,6 +1,6 @@
 <ul>
-  <li class="text" *ngFor="let item of items | async">
-    {{item | json}}
+  <li class="text" *ngFor="let item of user | async">
+    {{item.$value}}
   </li>
 </ul>
 

@@ -13,7 +13,7 @@ export class AF {
   public users: FirebaseListObservable<any>;
   public displayName: string;
   public email: string;
-  public user: Observable<any>;
+  public user: FirebaseListObservable<any>;
   private beTokenUrl = 'http://localhost:8081/get-token';
   private verifyTokenUrl = 'http://localhost:8081/verifyIdToken';
   private authApiUrl = 'http://localhost:8081/api/hello';
@@ -22,12 +22,15 @@ export class AF {
   private tokenID: string;
 
   constructor(public afAuth: AngularFireAuth, public db: AngularFireDatabase, private http: Http) {
-    this.afAuth.authState.subscribe(
-      (auth) => {
-        if (auth != null) {
-          this.user = db.list('users/' + auth.uid);
-        }
-      })
+    this.afAuth.authState.subscribe(res => {
+      if (res && res.uid) {
+        console.log('user is logged in', res);
+        this.user = db.list('users/' + res.uid);
+        console.log('this.user', this.user);
+      } else {
+        console.log('user not logged in');
+      }
+    });
     this.messages = db.list('messages');
     this.users = db.list('users');
   }
@@ -37,8 +40,9 @@ export class AF {
     return Promise.reject(error.message || error);
   }
 
-  getCurrentUsers() {
-    return this.users;
+  getCurrentUserData() {
+    console.log('getCurrentUser');
+    return this.user;
   }
 
   setClientToken(token) {

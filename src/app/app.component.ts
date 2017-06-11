@@ -3,6 +3,7 @@ import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/databa
 import { AF } from '../providers/af';
 import { HttpModule } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 
 @Component({
   selector: 'app-root',
@@ -11,10 +12,14 @@ import { Observable } from 'rxjs/Observable';
 })
 export class AppComponent {
   public items: FirebaseListObservable<any[]>;
-  public users: FirebaseListObservable<any>;
-  constructor(db: AngularFireDatabase, public afService: AF) {
+  public user: FirebaseListObservable<any>;
+  constructor(db: AngularFireDatabase, public afService: AF, public afAuth: AngularFireAuth) {
     this.items = db.list('/users');
-    this.users = afService.getCurrentUsers();
+    this.afAuth.authState.subscribe(res => {
+      if (res && res.uid) {
+        this.user = db.list('users/' + res.uid);
+      }
+    });
   }
 
   authIT(event) {
@@ -40,11 +45,11 @@ export class AppComponent {
 
   createNewUserHit(event) {
     event.preventDefault();
-    this.afService.createNewUser('alisonfoster@gmail.com', 'geneweeny')
+    this.afService.createNewUser('ballsy@sdfjnsdf.com', 'geneweeny')
   }
 
   signInEmailPassHit(event) {
     event.preventDefault();
-    this.afService.signInEmailPass('alisonfoster@gmail.com', 'geneweeny')
+    this.afService.signInEmailPass('ballsy@sdfjnsdf.com', 'geneweeny')
   }
 }
