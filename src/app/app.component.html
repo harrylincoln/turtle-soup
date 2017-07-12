@@ -1,20 +1,23 @@
+<h2>Logged in data:</h2>
+
 <ul>
   <li class="text" *ngFor="let item of user | async">
     {{item.$value}}
   </li>
 </ul>
+<br>
+<hr>
+<br>
 
-<!-- <form class="form-signin"">
-<input #message type="textarea" id="message" class="form-control" placeholder="Message" required="">
-<button  class="btn btn-md btn-primary btn-block" type="submit">Send message</button>
-</form> -->
-
-<button (click)="authIT($event)">Start the magic</button>
-
-<button (click)="logTheHellOut($event)">Log the hell out</button>
-
-<button (click)="authAPIHit($event)">Auth the API</button>
-
-<button (click)="createNewUserHit($event)">Create a user on the backend</button>
-
+<h2>Example 1</h2>
+<button (click)="createNewUserHit($event)">Create a user via backend</button>
 <button (click)="signInEmailPassHit($event)">Sign in using email and pass</button>
+<hr>
+<br>
+
+<h2>Example 2</h2>
+<button (click)="authIT($event)">Get custom token and sign in on BE</button>
+<button (click)="authAPIHit($event)">Auth the API</button>
+<hr>
+
+<button (click)="logOutSession($event)">Log out</button>

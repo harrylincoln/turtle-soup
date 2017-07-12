@@ -31,8 +31,17 @@ export class AF {
         console.log('user not logged in');
       }
     });
-    this.messages = db.list('messages');
-    this.users = db.list('users');
+  }
+
+  createNewUser(email, password) {
+    this.http.post(this.createUserUrl, {emailAddress: email, pass: password})
+    .toPromise()
+    .then(function (res) {
+      console.log('createNewUser success', res.json());
+    })
+    .catch(function(error) {
+      console.log('createNewUser error', error);
+    });
   }
 
   private handleError(error: any): Promise<any> {
@@ -97,20 +106,6 @@ export class AF {
         });
     }).catch(function(error) {
       console.log('currentUser getToken error', error)
-    });
-  }
-
-  createNewUser(email, password) {
-    let headersObj = new Headers();
-    headersObj.append('Authorization', 'Bearer ' + this.tokenID)
-    let options = new RequestOptions({ headers: headersObj });
-    this.http.post(this.createUserUrl, {emailAddress: email, pass: password} , options)
-    .toPromise()
-    .then(function (res) {
-      console.log('createNewUser success', res.json());
-    })
-    .catch(function(error) {
-      console.log('createNewUser error', error);
     });
   }
 

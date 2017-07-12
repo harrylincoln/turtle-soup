@@ -22,6 +22,16 @@ export class AppComponent {
     });
   }
 
+  createNewUserHit(event) {
+    event.preventDefault();
+    this.afService.createNewUser('testy@testy.com', 'aSaf3rp@a55word!')
+  }
+
+  signInEmailPassHit(event) {
+    event.preventDefault();
+    this.afService.signInEmailPass('testy@testy.com', 'aSaf3rp@a55word!')
+  }
+
   authIT(event) {
     event.preventDefault();
     this.afService.getCustomToken()
@@ -33,7 +43,7 @@ export class AppComponent {
       });
   }
 
-  logTheHellOut(event) {
+  logOutSession(event) {
     event.preventDefault();
     this.afService.logout()
   }
@@ -41,15 +51,5 @@ export class AppComponent {
   authAPIHit(event) {
     event.preventDefault();
     this.afService.getTokenAndSendToAPI()
-  }
-
-  createNewUserHit(event) {
-    event.preventDefault();
-    this.afService.createNewUser('ballsy@sdfjnsdf.com', 'geneweeny')
-  }
-
-  signInEmailPassHit(event) {
-    event.preventDefault();
-    this.afService.signInEmailPass('ballsy@sdfjnsdf.com', 'geneweeny')
   }
 }
