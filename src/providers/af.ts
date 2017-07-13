@@ -112,19 +112,6 @@ export class AF {
   signInEmailPass(email, password) {
     this.afAuth.auth.signInWithEmailAndPassword(email, password).then((user) => {
       console.log('Logged in as', user);
-      // let headersObj = new Headers();
-      // headersObj.append('Authorization', 'Bearer ' + user.uid)
-      // let options = new RequestOptions({ headers: headersObj });
-
-      // this.http.post('http://localhost:8081/add-data', {test: 'Yoooooooooo', uid: user.uid} , options)
-      // .toPromise()
-      // .then(function (res) {
-      //   console.log('add additional data', res.json());
-      // })
-      // .catch(function(error) {
-      //   console.error('', error);
-      // });
-
     }).catch(function(error) {
       console.error('signInEmailPass()', error);
     });
